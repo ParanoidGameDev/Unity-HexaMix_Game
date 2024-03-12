@@ -312,7 +312,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 894673994}
-  - {fileID: 439423114}
   m_Father: {fileID: 2002892417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -839,7 +838,7 @@ RectTransform:
   m_Children:
   - {fileID: 1599530866}
   - {fileID: 817887987}
-  m_Father: {fileID: 261518976}
+  m_Father: {fileID: 894673994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2557,6 +2556,7 @@ RectTransform:
   m_Children:
   - {fileID: 702224172}
   - {fileID: 1390771654}
+  - {fileID: 439423114}
   m_Father: {fileID: 261518976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3332,7 +3332,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1260823917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1634426382}
+        m_TargetAssemblyTypeName: MenusManager, Assembly-CSharp
+        m_MethodName: ExitApp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1260823917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4126,7 +4138,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1428099930}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1634426382}
+        m_TargetAssemblyTypeName: MenusManager, Assembly-CSharp
+        m_MethodName: StartBaseGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1428099930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4714,6 +4738,7 @@ GameObject:
   - component: {fileID: 1634426381}
   - component: {fileID: 1634426380}
   - component: {fileID: 1634426379}
+  - component: {fileID: 1634426382}
   m_Layer: 5
   m_Name: canvas
   m_TagString: Untagged
@@ -4805,6 +4830,21 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1634426382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634426377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80089ba78e9329a4c9f6a8aad01c8498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inGamePauseMenu: {fileID: 0}
+  pauseMenu: 0
+  inGame: 0
 --- !u!1 &1685640730
 GameObject:
   m_ObjectHideFlags: 0
