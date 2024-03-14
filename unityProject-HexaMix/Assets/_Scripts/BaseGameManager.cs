@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BaseGameManager : MonoBehaviour {
     [SerializeField] private GameObject newColour;
     [SerializeField] private List<GameObject> colourPrefabs;
     [SerializeField] private List<GameObject> coloursList;
+    [SerializeField] private List<int> lastColourIndex;
     [SerializeField] private Vector2 clickPosition;
     [SerializeField] private Vector2 worldPosition;
     [SerializeField] private Transform fieldArea;
@@ -17,7 +18,7 @@ public class BaseGameManager : MonoBehaviour {
         this.SpawnItem();
     }
     void Update() {
-        if (Input.GetMouseButtonUp(0)) {
+        if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject()) {
             this.clickPosition = Input.mousePosition;
             this.worldPosition = (Vector2)Camera.main.ScreenToWorldPoint(clickPosition) - (Vector2)this.fieldArea.position;
             this.fieldRotation = this.fieldArea.rotation.eulerAngles * -1;
@@ -33,36 +34,38 @@ public class BaseGameManager : MonoBehaviour {
                     if (this.shotAngle >= this.divisionAngle * i && this.shotAngle < this.divisionAngle * (i + 1)) {
                         if (i < this.coloursList.Count) {
                             this.coloursList.Insert(i + 1, this.newColour);
-                            Debug.Log("=============");
-                            Debug.Log(this.fieldArea.rotation.eulerAngles * -1);
-                            Debug.Log(Vector3.forward * -this.divisionAngle / 4);
-                            this.fieldArea.Rotate(Vector3.forward * -this.divisionAngle / 4);
-                            Debug.Log(this.fieldArea.rotation.eulerAngles * -1);
+                            this.fieldArea.Rotate(Vector3.forward / (this.divisionAngle * 2));
+                            this.lastColourIndex.Insert(0, i + 1);
                         } else {
                             this.coloursList.Add(this.newColour);
+                            this.lastColourIndex.Insert(0, i);
                         }
                         break;
                     }
                 }
             } else {
                 this.divisionAngle = 360.0f;
+                this.lastColourIndex.Insert(0, 0);
                 this.coloursList.Add(this.newColour);
             }
-
-            for (int i = 0; i < this.coloursList.Count; ++i) {
-                this.divisionAngle = 360.0f / this.coloursList.Count;
-                float positionX = this.distance * Mathf.Cos(this.divisionAngle * i * Mathf.Deg2Rad);
-                float positionY = this.distance * Mathf.Sin(this.divisionAngle * i * Mathf.Deg2Rad);
-                this.coloursList[i].transform.localPosition = new Vector2(positionX, positionY);
-            }
+            this.UpdatePositions();
 
             this.SpawnItem();
         }
         this.RotateField();
     }
 
+    private void UpdatePositions() {
+        for (int i = 0; i < this.coloursList.Count; ++i) {
+            this.divisionAngle = 360.0f / this.coloursList.Count;
+            float positionX = this.distance * Mathf.Cos(this.divisionAngle * i * Mathf.Deg2Rad);
+            float positionY = this.distance * Mathf.Sin(this.divisionAngle * i * Mathf.Deg2Rad);
+            this.coloursList[i].transform.localPosition = new Vector2(positionX, positionY);
+        }
+    }
+
     private void RotateField() {
-        this.fieldArea.Rotate(Vector3.forward / (2 + this.coloursList.Count));
+        this.fieldArea.Rotate(Vector3.forward / (10 / 1 + this.coloursList.Count));
     }
 
     private void SpawnItem() {
@@ -78,5 +81,15 @@ public class BaseGameManager : MonoBehaviour {
                 Gizmos.DrawLine(Vector2.down, this.coloursList[i].transform.position);
             }
         }
+    }
+
+    public void UndoPlacement() {
+        GameObject previous = this.coloursList[this.lastColourIndex[0]];
+        Destroy(this.newColour);
+        Destroy(this.coloursList[this.lastColourIndex[0]]);
+        this.coloursList.RemoveAt(this.lastColourIndex[0]);
+        this.lastColourIndex.RemoveAt(0);
+        this.newColour = previous;
+        this.UpdatePositions();
     }
 }
