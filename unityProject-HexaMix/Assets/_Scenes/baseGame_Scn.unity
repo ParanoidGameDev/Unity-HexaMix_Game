@@ -632,6 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newColor: {fileID: 0}
   colorPrefab: {fileID: 7636607391524999203, guid: 5f49249d01974d746bfc046c5bfaeba5, type: 3}
+  hexagon: {fileID: -712631045867808456, guid: b670ab75dde984907b8570040daa08c5, type: 3}
   tier1Colors:
   - {r: 0, g: 1, b: 0.80392164, a: 1}
   - {r: 0, g: 0.86274517, b: 1, a: 1}
@@ -645,6 +646,13 @@ MonoBehaviour:
   - {r: 1, g: 0.7843138, b: 0, a: 1}
   - {r: 0.6745098, g: 1, b: 0, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
+  powerupSprites:
+  - {fileID: 21300000, guid: 3a935389a83d3324e96e9e94242d9067, type: 3}
+  - {fileID: 21300000, guid: 8959551bc4a223c45b75dcf03176ca86, type: 3}
+  - {fileID: 21300000, guid: e82f4eb78e64127479eb03a44550c94a, type: 3}
+  - {fileID: 21300000, guid: 5c71bae265f24da4a84f8b1995974399, type: 3}
+  - {fileID: 21300000, guid: 894996c710cdae2479264cdf33ca7311, type: 3}
+  - {fileID: 21300000, guid: 92a89f5251782c444a8d1f12b8b281c6, type: 3}
   colorPool: []
   colorsList: []
   lastColorIndex: 

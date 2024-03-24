@@ -7,7 +7,9 @@ using UnityEngine.Rendering.Universal;
 public class BaseGameManager : MonoBehaviour {
     [SerializeField] private GameObject newColor;
     [SerializeField] private GameObject colorPrefab;
+    [SerializeField] private Sprite hexagon;
     [SerializeField] private List<Color> tier1Colors;
+    [SerializeField] private List<Sprite> powerupSprites;
     [SerializeField] private List<GameObject> colorPool;
     [SerializeField] private List<GameObject> colorsList;
     [SerializeField] private List<int> lastColorIndex;
@@ -88,9 +90,12 @@ public class BaseGameManager : MonoBehaviour {
 
     private void GeneratePoolColor() {
         colorPool.Add(colorPrefab);
+        Sprite newPowerupSprite = powerupSprites[Random.Range(0, powerupSprites.Count)];
         Color newColor = tier1Colors[Random.Range(0, tier1Colors.Count)];
-        colorPool[0].GetComponent<SpriteRenderer>().color = newColor;
         colorPool[0].GetComponentInChildren<Light2D>().color = newColor;
+        colorPool[0].GetComponentInChildren<SpriteRenderer>().sprite = newPowerupSprite;
+        colorPool[0].GetComponent<SpriteRenderer>().color = newColor;
+        colorPool[0].GetComponent<SpriteRenderer>().sprite = hexagon;
     }
 
     private void OnDrawGizmos() {
