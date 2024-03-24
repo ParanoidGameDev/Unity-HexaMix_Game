@@ -630,16 +630,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1d0941a4c53f74ca5260bce94d69af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newColour: {fileID: 0}
-  colourPrefabs:
+  newColor: {fileID: 0}
+  colorPrefabs:
   - {fileID: 7636607391524999203, guid: 5f49249d01974d746bfc046c5bfaeba5, type: 3}
   - {fileID: 7636607391524999203, guid: 2ed996929cf8a8c4b8fabb622ae4cbd1, type: 3}
   - {fileID: 7636607391524999203, guid: b446b478a7d31094faab125624c979a9, type: 3}
-  - {fileID: 7636607391524999203, guid: 104d4270b4452b847ae0c497121c94d7, type: 3}
-  - {fileID: 7636607391524999203, guid: b80098efef2457c47952bd87184b12f8, type: 3}
   - {fileID: 7636607391524999203, guid: eae40bca93549e64094ad58bba90b2a8, type: 3}
-  coloursList: []
-  lastColourIndex: 
+  - {fileID: 7636607391524999203, guid: b80098efef2457c47952bd87184b12f8, type: 3}
+  - {fileID: 7636607391524999203, guid: 104d4270b4452b847ae0c497121c94d7, type: 3}
+  colorsList: []
+  lastColorIndex: 
+  nextColorIndex: 01000000
   clickPosition: {x: 0, y: 0}
   worldPosition: {x: 0, y: 0}
   fieldArea: {fileID: 2141811327}

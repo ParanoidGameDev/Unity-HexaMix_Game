@@ -1,12 +1,14 @@
+using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class BaseGameManager : MonoBehaviour {
-    [SerializeField] private GameObject newColour;
-    [SerializeField] private List<GameObject> colourPrefabs;
-    [SerializeField] private List<GameObject> coloursList;
-    [SerializeField] private List<int> lastColourIndex;
+    [SerializeField] private GameObject newColor;
+    [SerializeField] private List<GameObject> colorPrefabs;
+    [SerializeField] private List<GameObject> colorPool;
+    [SerializeField] private List<GameObject> colorsList;
+    [SerializeField] private List<int> lastColorIndex;
     [SerializeField] private Vector2 clickPosition;
     [SerializeField] private Vector2 worldPosition;
     [SerializeField] private Transform fieldArea;
@@ -15,81 +17,96 @@ public class BaseGameManager : MonoBehaviour {
     [SerializeField] private float divisionAngle;
     [SerializeField] private float distance = 2.0f;
     void Start() {
-        this.SpawnItem();
+        SpawnItem();
     }
     void Update() {
         if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject()) {
-            this.clickPosition = Input.mousePosition;
-            this.worldPosition = (Vector2)Camera.main.ScreenToWorldPoint(clickPosition) - (Vector2)this.fieldArea.position;
-            this.fieldRotation = this.fieldArea.rotation.eulerAngles * -1;
-            float fieldZ = this.fieldRotation.z;
+            clickPosition = Input.mousePosition;
+            worldPosition = (Vector2)Camera.main.ScreenToWorldPoint(clickPosition) - (Vector2)fieldArea.position;
+            fieldRotation = fieldArea.rotation.eulerAngles * -1;
+            float fieldZ = fieldRotation.z;
             if (fieldZ < 0) fieldZ += 360f;
-            this.shotAngle = (Mathf.Atan2(this.worldPosition.y, this.worldPosition.x) * Mathf.Rad2Deg);
-            if (this.shotAngle < 0) this.shotAngle += 360f;
-            this.shotAngle = (this.shotAngle + fieldZ) % 360;
+            shotAngle = (Mathf.Atan2(worldPosition.y, worldPosition.x) * Mathf.Rad2Deg);
+            if (shotAngle < 0) shotAngle += 360f;
+            shotAngle = (shotAngle + fieldZ) % 360;
 
-            if (this.coloursList.Count > 0) {
-                this.divisionAngle = 360.0f / this.coloursList.Count;
-                for(int i = 0; i < this.coloursList.Count; i++) {
-                    if (this.shotAngle >= this.divisionAngle * i && this.shotAngle < this.divisionAngle * (i + 1)) {
-                        if (i < this.coloursList.Count) {
-                            this.coloursList.Insert(i + 1, this.newColour);
-                            this.fieldArea.Rotate(Vector3.forward / (this.divisionAngle * 2));
-                            this.lastColourIndex.Insert(0, i + 1);
+            newColor.transform.parent = fieldArea.transform;
+            if (colorsList.Count > 0) {
+                divisionAngle = 360.0f / colorsList.Count;
+                for(int i = 0; i < colorsList.Count; i++) {
+                    if (shotAngle >= divisionAngle * i && shotAngle < divisionAngle * (i + 1)) {
+                        if (i < colorsList.Count) {
+                            fieldArea.Rotate(Vector3.back * (divisionAngle / 4));
+                            colorsList.Insert(i + 1, newColor);
+                            lastColorIndex.Insert(0, i + 1);
                         } else {
-                            this.coloursList.Add(this.newColour);
-                            this.lastColourIndex.Insert(0, i);
+                            colorsList.Add(newColor);
+                            lastColorIndex.Insert(0, i);
                         }
                         break;
                     }
                 }
             } else {
-                this.divisionAngle = 360.0f;
-                this.lastColourIndex.Insert(0, 0);
-                this.coloursList.Add(this.newColour);
+                fieldArea.Rotate(Vector3.forward * shotAngle);
+                divisionAngle = 360.0f;
+                lastColorIndex.Insert(0, 0);
+                colorsList.Add(newColor);
             }
-            this.UpdatePositions();
 
-            this.SpawnItem();
+            UpdatePositions();
+
+            SpawnItem();
         }
-        this.RotateField();
+        if(colorsList.Count != 0) {
+            RotateField();
+        }
     }
 
     private void UpdatePositions() {
-        for (int i = 0; i < this.coloursList.Count; ++i) {
-            this.divisionAngle = 360.0f / this.coloursList.Count;
-            float positionX = this.distance * Mathf.Cos(this.divisionAngle * i * Mathf.Deg2Rad);
-            float positionY = this.distance * Mathf.Sin(this.divisionAngle * i * Mathf.Deg2Rad);
-            this.coloursList[i].transform.localPosition = new Vector2(positionX, positionY);
+        for (int i = 0; i < colorsList.Count; ++i) {
+            divisionAngle = 360.0f / colorsList.Count;
+            float positionX = distance * Mathf.Cos(divisionAngle * i * Mathf.Deg2Rad);
+            float positionY = distance * Mathf.Sin(divisionAngle * i * Mathf.Deg2Rad);
+            colorsList[i].transform.localPosition = new Vector2(positionX, positionY);
         }
     }
 
     private void RotateField() {
-        this.fieldArea.Rotate(Vector3.forward / (10 / 1 + this.coloursList.Count));
+        fieldArea.Rotate(Vector3.forward / (12 / 1 + colorsList.Count));
     }
 
     private void SpawnItem() {
-        int randomIndex = Random.Range(0, this.colourPrefabs.Count);
-        this.newColour = Instantiate(this.colourPrefabs[randomIndex], this.fieldArea.position, Quaternion.identity, this.fieldArea);
+        if(colorPool.Count == 0) {
+            GeneratePoolColor();
+        }
+        newColor = Instantiate(colorPool[0], fieldArea.position, Quaternion.identity);
+        if(!newColor.activeSelf) newColor.SetActive(true);
+        colorPool.RemoveAt(0);
+    }
+
+    private void GeneratePoolColor() {
+        colorPool.Add(colorPrefabs[Random.Range(0, colorPrefabs.Count)]);
     }
 
     private void OnDrawGizmos() {
-        if(this.worldPosition != null) {
+        if(worldPosition != null) {
             Gizmos.color = Color.white;
-            Gizmos.DrawLine(Vector2.down, worldPosition + (Vector2)this.fieldArea.position);
-            for(int i = 0;  i < this.coloursList.Count; i++) {
-                Gizmos.DrawLine(Vector2.down, this.coloursList[i].transform.position);
+            Gizmos.DrawLine(Vector2.down, worldPosition + (Vector2)fieldArea.position);
+            for(int i = 0;  i < colorsList.Count; i++) {
+                Gizmos.DrawLine(Vector2.down, colorsList[i].transform.position);
             }
         }
     }
 
     public void UndoPlacement() {
-        GameObject previous = this.coloursList[this.lastColourIndex[0]];
-        Destroy(this.newColour);
-        Destroy(this.coloursList[this.lastColourIndex[0]]);
-        this.coloursList.RemoveAt(this.lastColourIndex[0]);
-        this.lastColourIndex.RemoveAt(0);
-        this.newColour = previous;
-        this.UpdatePositions();
+        if(colorsList.Count > 0) {
+            newColor.SetActive(false);
+            colorPool.Insert(0, newColor);
+            newColor = colorsList[lastColorIndex[0]];
+            newColor.transform.position = fieldArea.position;
+            colorsList.RemoveAt(lastColorIndex[0]);
+            lastColorIndex.RemoveAt(0);
+            UpdatePositions();
+        }
     }
 }
