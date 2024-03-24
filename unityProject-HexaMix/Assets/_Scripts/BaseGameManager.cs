@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering.Universal;
 
 public class BaseGameManager : MonoBehaviour {
     [SerializeField] private GameObject newColor;
@@ -46,6 +45,7 @@ public class BaseGameManager : MonoBehaviour {
                             colorsList.Add(newColor);
                             lastColorIndex.Insert(0, i);
                         }
+                        UsePowerup(i + 1);
                         break;
                     }
                 }
@@ -54,6 +54,7 @@ public class BaseGameManager : MonoBehaviour {
                 divisionAngle = 360.0f;
                 lastColorIndex.Insert(0, 0);
                 colorsList.Add(newColor);
+                UsePowerup(0);
             }
 
             UpdatePositions();
@@ -62,6 +63,39 @@ public class BaseGameManager : MonoBehaviour {
         }
         if(colorsList.Count != 0) {
             RotateField();
+        }
+    }
+
+    private void UsePowerup(int place) {
+        int powerup = colorsList[place].GetComponent<ColorElementCore>().GetPowerupIndex();
+        int previous = place - 1;
+        int next = place + 1;
+        if (place == 0) previous = colorsList.Count - 1;
+        if (place == colorsList.Count - 1) next = 0;
+        switch (powerup) {
+            case 0:
+                //Nivelation
+                int typeMinor = colorsList[previous].GetComponent<ColorElementCore>().GetColorIndex();
+                int typePlus = colorsList[next].GetComponent<ColorElementCore>().GetColorIndex();
+                int test = Random.Range(0, 2);
+                if (test == 0) {
+                    colorsList[place].GetComponent<ColorElementCore>().Nivelation(typeMinor);
+                } else {
+                    colorsList[place].GetComponent<ColorElementCore>().Nivelation(typePlus);
+                }
+            break;
+            case 1:
+            break;
+            case 2:
+            break;
+            case 3:
+            break;
+            case 4:
+            break;
+            case 5:
+            break;
+            case 6:
+            break;
         }
     }
 
