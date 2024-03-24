@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 
 public class BaseGameManager : MonoBehaviour {
     [SerializeField] private GameObject newColor;
-    [SerializeField] private List<GameObject> colorPrefabs;
+    [SerializeField] private GameObject colorPrefab;
+    [SerializeField] private List<Material> colorsPrefabs;
     [SerializeField] private List<GameObject> colorPool;
     [SerializeField] private List<GameObject> colorsList;
     [SerializeField] private List<int> lastColorIndex;
@@ -85,7 +86,7 @@ public class BaseGameManager : MonoBehaviour {
     }
 
     private void GeneratePoolColor() {
-        colorPool.Add(colorPrefabs[Random.Range(0, colorPrefabs.Count)]);
+        colorPool.Add(colorPrefab);
     }
 
     private void OnDrawGizmos() {
