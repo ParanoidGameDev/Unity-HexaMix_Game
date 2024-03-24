@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,10 +19,10 @@ public class BaseGameManager : MonoBehaviour {
     [SerializeField] private float shotAngle;
     [SerializeField] private float divisionAngle;
     [SerializeField] private float distance = 2.0f;
-    void Start() {
+    private void Start() {
         SpawnItem();
     }
-    void Update() {
+    private void Update() {
         if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject()) {
             clickPosition = Input.mousePosition;
             worldPosition = (Vector2)Camera.main.ScreenToWorldPoint(clickPosition) - (Vector2)fieldArea.position;
@@ -83,19 +82,17 @@ public class BaseGameManager : MonoBehaviour {
         if(colorPool.Count == 0) {
             GeneratePoolColor();
         }
-        newColor = Instantiate(colorPool[0], fieldArea.position, Quaternion.identity);
-        if(!newColor.activeSelf) newColor.SetActive(true);
+        if (colorPool[0] == colorPrefab) {
+            newColor = Instantiate(colorPool[0], fieldArea.position, Quaternion.identity);
+        } else {
+            newColor = colorPool[0];
+            newColor.SetActive(true);
+        }
         colorPool.RemoveAt(0);
     }
 
     private void GeneratePoolColor() {
         colorPool.Add(colorPrefab);
-        Sprite newPowerupSprite = powerupSprites[Random.Range(0, powerupSprites.Count)];
-        Color newColor = tier1Colors[Random.Range(0, tier1Colors.Count)];
-        colorPool[0].GetComponentInChildren<Light2D>().color = newColor;
-        colorPool[0].GetComponentInChildren<SpriteRenderer>().sprite = newPowerupSprite;
-        colorPool[0].GetComponent<SpriteRenderer>().color = newColor;
-        colorPool[0].GetComponent<SpriteRenderer>().sprite = hexagon;
     }
 
     private void OnDrawGizmos() {
@@ -113,6 +110,8 @@ public class BaseGameManager : MonoBehaviour {
             newColor.SetActive(false);
             colorPool.Insert(0, newColor);
             newColor = colorsList[lastColorIndex[0]];
+            newColor.transform.parent = null;
+            newColor.transform.rotation = Quaternion.identity;
             newColor.transform.position = fieldArea.position;
             colorsList.RemoveAt(lastColorIndex[0]);
             lastColorIndex.RemoveAt(0);
