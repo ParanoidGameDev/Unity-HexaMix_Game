@@ -43,3 +43,4 @@ UnityTopdown/Logs/AssetImportWorker0.log
 *.log
 *.log
 *.workspace
+*.vsidx
