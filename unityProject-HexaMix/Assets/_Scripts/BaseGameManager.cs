@@ -2,11 +2,12 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 
 public class BaseGameManager : MonoBehaviour {
     [SerializeField] private GameObject newColor;
     [SerializeField] private GameObject colorPrefab;
-    [SerializeField] private List<Material> colorsPrefabs;
+    [SerializeField] private List<Color> tier1Colors;
     [SerializeField] private List<GameObject> colorPool;
     [SerializeField] private List<GameObject> colorsList;
     [SerializeField] private List<int> lastColorIndex;
@@ -73,7 +74,7 @@ public class BaseGameManager : MonoBehaviour {
     }
 
     private void RotateField() {
-        fieldArea.Rotate(Vector3.forward / (12 / 1 + colorsList.Count));
+        fieldArea.Rotate(Vector3.forward / (.6f / 1 + colorsList.Count));
     }
 
     private void SpawnItem() {
@@ -87,6 +88,9 @@ public class BaseGameManager : MonoBehaviour {
 
     private void GeneratePoolColor() {
         colorPool.Add(colorPrefab);
+        Color newColor = tier1Colors[Random.Range(0, tier1Colors.Count)];
+        colorPool[0].GetComponent<SpriteRenderer>().color = newColor;
+        colorPool[0].GetComponentInChildren<Light2D>().color = newColor;
     }
 
     private void OnDrawGizmos() {

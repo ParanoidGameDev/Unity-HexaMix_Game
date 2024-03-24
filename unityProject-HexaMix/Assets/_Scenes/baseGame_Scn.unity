@@ -632,19 +632,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newColor: {fileID: 0}
   colorPrefab: {fileID: 7636607391524999203, guid: 5f49249d01974d746bfc046c5bfaeba5, type: 3}
-  colorsPrefabs:
-  - {fileID: 2100000, guid: 4a66acc7d9bed3740aeabf647bfa7420, type: 2}
-  - {fileID: 2100000, guid: 5872dd49b9eda31488b1e2595f4b19cb, type: 2}
-  - {fileID: 2100000, guid: 40587ff0ab477f744ad8cfe1a65d6058, type: 2}
-  - {fileID: 2100000, guid: f29454d666bf9aa4a8ba0d2ab0b04989, type: 2}
-  - {fileID: 2100000, guid: d9b0795b2b520a04fa642a80dc723be0, type: 2}
-  - {fileID: 2100000, guid: 76f0238b0a3c54742b6448d3fc11b8dc, type: 2}
-  - {fileID: 2100000, guid: f2905099a95d84345a1b4ee072c4120f, type: 2}
-  - {fileID: 2100000, guid: cd785eb84396c914ab428e0a64b6b9a4, type: 2}
-  - {fileID: 2100000, guid: f3f4494bca206ff449c9f525ef78b4ed, type: 2}
-  - {fileID: 2100000, guid: b6c6687262bd45848bac1084b29ef90b, type: 2}
-  - {fileID: 2100000, guid: d1c7d4731400a694fb4b0274830e1322, type: 2}
-  - {fileID: 2100000, guid: 675a932d14d4fa446b0864c25a6059ed, type: 2}
+  tier1Colors:
+  - {r: 0, g: 1, b: 0.80392164, a: 1}
+  - {r: 0, g: 0.86274517, b: 1, a: 1}
+  - {r: 0, g: 0.41176474, b: 1, a: 1}
+  - {r: 0.15686275, g: 0, b: 1, a: 1}
+  - {r: 0.49803925, g: 0, b: 1, a: 1}
+  - {r: 0.7843138, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.8941177, a: 1}
+  - {r: 1, g: 0, b: 0.15686275, a: 1}
+  - {r: 1, g: 0.40000004, b: 0, a: 1}
+  - {r: 1, g: 0.7843138, b: 0, a: 1}
+  - {r: 0.6745098, g: 1, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
   colorPool: []
   colorsList: []
   lastColorIndex: 
