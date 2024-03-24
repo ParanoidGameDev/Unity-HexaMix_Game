@@ -638,9 +638,9 @@ MonoBehaviour:
   - {fileID: 7636607391524999203, guid: eae40bca93549e64094ad58bba90b2a8, type: 3}
   - {fileID: 7636607391524999203, guid: b80098efef2457c47952bd87184b12f8, type: 3}
   - {fileID: 7636607391524999203, guid: 104d4270b4452b847ae0c497121c94d7, type: 3}
+  colorPool: []
   colorsList: []
   lastColorIndex: 
-  nextColorIndex: 01000000
   clickPosition: {x: 0, y: 0}
   worldPosition: {x: 0, y: 0}
   fieldArea: {fileID: 2141811327}
